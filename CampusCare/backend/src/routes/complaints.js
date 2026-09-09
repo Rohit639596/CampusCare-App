@@ -1,0 +1,13 @@
+import { Router } from 'express';
+import multer from 'multer';
+import { createComplaint, getComplaint, listAllComplaints, listMyComplaints, updateComplaint } from '../controllers/complaints.js';
+import { requireAuth, requireRole } from '../middleware/auth.js';
+const router = Router();
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 }, fileFilter: (_, file, cb) => cb(null, /^image\/(jpeg|png|webp)$/.test(file.mimetype)) });
+router.use(requireAuth);
+router.post('/', upload.single('image'), createComplaint);
+router.get('/mine', listMyComplaints);
+router.get('/', requireRole('ADMIN'), listAllComplaints);
+router.get('/:id', getComplaint);
+router.patch('/:id', requireRole('ADMIN'), updateComplaint);
+export default router;
