@@ -20,13 +20,16 @@ enum ComplaintStatus {
 }
 
 model User {
-  id           String      @id @default(cuid())
-  name         String
-  email        String      @unique
-  passwordHash String
-  role         Role        @default(STUDENT)
-  createdAt    DateTime    @default(now())
-  complaints   Complaint[]
+  id                String      @id @default(cuid())
+  name              String
+  email             String      @unique
+  passwordHash      String
+  role              Role        @default(STUDENT)
+  resetCodeHash     String?
+  resetCodeExpiresAt DateTime?
+  createdAt         DateTime    @default(now())
+
+  complaints        Complaint[]
 }
 
 model Complaint {
@@ -41,6 +44,7 @@ model Complaint {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   studentId   String
+
   student     User            @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
   @@index([studentId])

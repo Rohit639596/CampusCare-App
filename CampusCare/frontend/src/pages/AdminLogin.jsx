@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
-import { GraduationCap, Lock, Mail } from 'lucide-react';
+import { ShieldCheck, Mail, Lock } from 'lucide-react';
 
-export default function Login({ onLogin }) {
+export default function AdminLogin({ onLogin }) {
   const [form, setForm] = useState({
     email: '',
     password: ''
@@ -22,7 +22,7 @@ export default function Login({ onLogin }) {
 
     try {
       const response = await api.post(
-        '/auth/login',
+        '/auth/admin/login',
         form
       );
 
@@ -33,11 +33,11 @@ export default function Login({ onLogin }) {
 
       onLogin(response.data.user);
 
-      navigate('/dashboard');
+      navigate('/admin');
     } catch (err) {
       setError(
         err.response?.data?.message ||
-        'Unable to sign in.'
+        'Unable to sign in as admin.'
       );
     } finally {
       setBusy(false);
@@ -45,26 +45,29 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div className="auth-shell">
+    <div className="auth-shell admin-auth">
       <div className="auth-card">
 
         {/* Logo */}
         <div className="logo-large">
-          <GraduationCap size={26} />
+          <ShieldCheck size={27} />
         </div>
-
 
         {/* Heading */}
         <p className="eyebrow">
-          CAMPUSCARE · STUDENT
+          CAMPUSCARE · ADMINISTRATION
         </p>
 
-        <h1>Student Login</h1>
+        <h1>Admin Login</h1>
 
         <p className="muted">
-          Login to submit complaints and track their status.
+          Restricted access for authorized campus staff.
         </p>
 
+        {/* Security Badge */}
+        <div className="security-badge">
+          🔒 Authorized administrators only
+        </div>
 
         {/* Login Form */}
         <form
@@ -74,7 +77,7 @@ export default function Login({ onLogin }) {
 
           {/* Email */}
           <label>
-            Email
+            Admin Email
 
             <div className="input-icon">
               <Mail size={17} />
@@ -89,7 +92,7 @@ export default function Login({ onLogin }) {
                     email: e.target.value
                   })
                 }
-                placeholder="you@college.edu"
+                placeholder="admin@college.edu"
               />
             </div>
           </label>
@@ -112,16 +115,16 @@ export default function Login({ onLogin }) {
                     password: e.target.value
                   })
                 }
-                placeholder="Enter your password"
+                placeholder="Admin password"
               />
             </div>
           </label>
 
 
-          {/* Student Forgot Password */}
+          {/* Admin Forgot Password */}
           <div className="forgot-row">
-            <Link to="/forgot-password">
-              Forgot password?
+            <Link to="/admin/forgot-password">
+              Forgot admin password?
             </Link>
           </div>
 
@@ -141,18 +144,18 @@ export default function Login({ onLogin }) {
           >
             {busy
               ? 'Signing in...'
-              : 'Login as Student'}
+              : 'Login as Administrator'}
           </button>
 
         </form>
 
 
-        {/* Student Registration */}
+        {/* Admin Registration */}
         <p className="switch">
-          Don't have an account?{' '}
+          Need an admin account?{' '}
 
-          <Link to="/register">
-            Create Student Account
+          <Link to="/admin/register">
+            Create Admin Account
           </Link>
         </p>
 
@@ -163,12 +166,12 @@ export default function Login({ onLogin }) {
         </div>
 
 
-        {/* Admin Login */}
+        {/* Student Login */}
         <Link
-          to="/admin/login"
+          to="/login"
           className="admin-login-link"
         >
-          Login as Administrator →
+          ← Login as Student
         </Link>
 
       </div>

@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ShieldCheck } from 'lucide-react';
 import { api } from '../lib/api';
-import { GraduationCap } from 'lucide-react';
 
-export default function Register({ onLogin }) {
+export default function AdminRegister({ onLogin }) {
   const [form, setForm] = useState({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    adminKey: ''
   });
 
   const [error, setError] = useState('');
@@ -15,7 +16,14 @@ export default function Register({ onLogin }) {
 
   const navigate = useNavigate();
 
-  const submit = async (e) => {
+  const update = (field, value) => {
+    setForm(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const submit = async e => {
     e.preventDefault();
 
     setError('');
@@ -23,7 +31,7 @@ export default function Register({ onLogin }) {
 
     try {
       const response = await api.post(
-        '/auth/register',
+        '/auth/admin/register',
         form
       );
 
@@ -34,11 +42,11 @@ export default function Register({ onLogin }) {
 
       onLogin(response.data.user);
 
-      navigate('/dashboard');
+      navigate('/admin');
     } catch (err) {
       setError(
         err.response?.data?.message ||
-        'Unable to create account.'
+        'Unable to create admin account.'
       );
     } finally {
       setBusy(false);
@@ -46,23 +54,26 @@ export default function Register({ onLogin }) {
   };
 
   return (
-    <div className="auth-shell">
-
+    <div className="auth-shell admin-auth">
       <div className="auth-card">
 
         <div className="logo-large">
-          <GraduationCap size={26} />
+          <ShieldCheck />
         </div>
 
         <p className="eyebrow">
-          CAMPUSCARE · STUDENT
+          CAMPUSCARE · ADMIN
         </p>
 
-        <h1>Create Student Account</h1>
+        <h1>Create Admin Account</h1>
 
         <p className="muted">
-          Create your account in a few simple steps.
+          Create an authorized administrator account.
         </p>
+
+        <div className="security-badge">
+          🔐 Authorized staff only
+        </div>
 
         <form
           onSubmit={submit}
@@ -73,52 +84,66 @@ export default function Register({ onLogin }) {
             Full Name
 
             <input
+              type="text"
               required
               value={form.name}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  name: e.target.value
-                })
+              onChange={e =>
+                update('name', e.target.value)
               }
-              placeholder="Your full name"
+              placeholder="Administrator name"
             />
           </label>
 
+
           <label>
-            College Email
+            Admin Email
 
             <input
               type="email"
               required
               value={form.email}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  email: e.target.value
-                })
+              onChange={e =>
+                update('email', e.target.value)
               }
-              placeholder="you@college.edu"
+              placeholder="admin@college.edu"
             />
           </label>
+
 
           <label>
             Password
 
             <input
               type="password"
-              minLength="8"
               required
+              minLength={8}
               value={form.password}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  password: e.target.value
-                })
+              onChange={e =>
+                update('password', e.target.value)
               }
               placeholder="Minimum 8 characters"
             />
           </label>
+
+
+          <label>
+            Admin Registration Key
+
+            <input
+              type="password"
+              required
+              value={form.adminKey}
+              onChange={e =>
+                update('adminKey', e.target.value)
+              }
+              placeholder="Enter admin key"
+            />
+
+            <span className="hint">
+              This key is verified by the backend.
+            </span>
+          </label>
+
 
           {error && (
             <div className="error">
@@ -126,34 +151,32 @@ export default function Register({ onLogin }) {
             </div>
           )}
 
+
           <button
             className="primary"
             disabled={busy}
           >
             {busy
               ? 'Creating account...'
-              : 'Create Student Account'}
+              : 'Create Admin Account'}
           </button>
 
         </form>
 
+
         <p className="switch">
-          Already have an account?{' '}
-          <Link to="/login">
-            Student Login
+          Already an admin?{' '}
+          <Link to="/admin/login">
+            Admin Login
           </Link>
         </p>
 
-        <div className="auth-divider">
-          <span>or</span>
-        </div>
 
-        <Link
-          to="/admin/register"
-          className="admin-login-link"
-        >
-          Create Administrator Account →
-        </Link>
+        <p className="switch">
+          <Link to="/login">
+            ← Student Login
+          </Link>
+        </p>
 
       </div>
     </div>
