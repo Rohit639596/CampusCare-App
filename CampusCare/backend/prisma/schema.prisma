@@ -10,6 +10,7 @@ datasource db {
 enum Role {
   STUDENT
   ADMIN
+  WARDEN
 }
 
 enum ComplaintStatus {
@@ -19,35 +20,184 @@ enum ComplaintStatus {
   REJECTED
 }
 
-model User {
-  id                String      @id @default(cuid())
-  name              String
-  email             String      @unique
-  passwordHash      String
-  role              Role        @default(STUDENT)
-  resetCodeHash     String?
-  resetCodeExpiresAt DateTime?
-  createdAt         DateTime    @default(now())
+enum NotificationType {
+  COMPLAINT_STATUS
+  COMPLAINT_UPDATE
+  ESCALATION
+  SYSTEM
+}
 
-  complaints        Complaint[]
+enum ComplaintDepartment {
+  HOSTEL
+  ACADEMICS
+  FEES
+  LIBRARY
+  TRANSPORT
+  INFRASTRUCTURE
+  IT
+  OTHER
+}
+
+model User {
+  id           String @id @default(cuid())
+  name         String
+  email        String @unique
+  passwordHash String
+  role         Role   @default(STUDENT)
+
+  resetCodeHash      String?
+  resetCodeExpiresAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  complaints    Complaint[]
+  notifications Notification[]
+  feedbacks     ComplaintFeedback[]
+  statusChanges ComplaintStatusHistory[] @relation("StatusChangedBy")
+  escalations   ComplaintEscalation[]    @relation("EscalationStudent")
 }
 
 model Complaint {
-  id          String          @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
   description String
   category    String
   location    String?
   imageUrl    String?
-  status      ComplaintStatus @default(PENDING)
-  adminNote   String?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-  studentId   String
 
-  student     User            @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  // Complaint Department / Routing
+  department ComplaintDepartment @default(OTHER)
+
+  // Complaint Status
+  status    ComplaintStatus @default(PENDING)
+  adminNote String?
+
+  // Escalation
+  escalationLevel  Int       @default(0)
+  escalatedAt      DateTime?
+  escalationReason String?
+
+  // AI Analysis
+  aiCategory       String?
+  aiPriority       String?
+  aiSentiment      String?
+  aiUrgency        String?
+  aiSummary        String?
+  aiRecommendation String?
+
+  // Duplicate Detection
+  embedding            String?
+  duplicateComplaintId String?
+  duplicateSimilarity  Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Student who created the complaint
+  studentId String
+
+  student User @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  // Complaint related data
+  statusHistory ComplaintStatusHistory[]
+  feedback      ComplaintFeedback?
+  escalations   ComplaintEscalation[]
 
   @@index([studentId])
   @@index([status])
   @@index([category])
+  @@index([department])
+  @@index([aiCategory])
+  @@index([aiPriority])
+  @@index([escalationLevel])
+  @@index([createdAt])
+}
+
+model ComplaintStatusHistory {
+  id          String           @id @default(cuid())
+  complaintId String
+  oldStatus   ComplaintStatus?
+  newStatus   ComplaintStatus
+  note        String?
+  changedById String?
+  createdAt   DateTime         @default(now())
+
+  complaint Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+
+  changedBy User? @relation("StatusChangedBy", fields: [changedById], references: [id], onDelete: SetNull)
+
+  @@index([complaintId])
+  @@index([createdAt])
+}
+
+model ComplaintEscalation {
+  id String @id @default(cuid())
+
+  complaintId String
+  studentId   String
+
+  // Escalation details
+  reason  String
+  message String?
+
+  // Authority levels
+  // Hostel:
+  // 0 = Warden
+  // 1 = HOD
+  // 2 = Chairman
+  fromLevel Int
+  toLevel   Int
+
+  createdAt DateTime @default(now())
+
+  complaint Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+
+  student User @relation("EscalationStudent", fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([complaintId])
+  @@index([studentId])
+  @@index([fromLevel])
+  @@index([toLevel])
+  @@index([createdAt])
+}
+
+model Notification {
+  id     String @id @default(cuid())
+  userId String
+
+  title   String
+  message String
+
+  type   NotificationType @default(SYSTEM)
+  isRead Boolean          @default(false)
+
+  complaintId String?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([complaintId])
+  @@index([createdAt])
+}
+
+model ComplaintFeedback {
+  id          String @id @default(cuid())
+  complaintId String @unique
+  studentId   String
+
+  rating  Int
+  comment String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  complaint Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+
+  student User @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([rating])
 }

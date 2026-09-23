@@ -5,10 +5,14 @@ import {
   adminRegister,
   login,
   adminLogin,
+  wardenRegister,
+  wardenLogin,
   studentForgotPassword,
   adminForgotPassword,
+  wardenForgotPassword,
   studentResetPassword,
   adminResetPassword,
+  wardenResetPassword,
   me
 } from '../controllers/auth.js';
 
@@ -29,6 +33,12 @@ router.post('/admin/register', adminRegister);
 router.post('/admin/login', adminLogin);
 router.post('/admin/forgot-password', adminForgotPassword);
 router.post('/admin/reset-password', adminResetPassword);
+
+// Warden
+router.post('/warden/register', wardenRegister);
+router.post('/warden/login', wardenLogin);
+router.post('/warden/forgot-password', wardenForgotPassword);
+router.post('/warden/reset-password', wardenResetPassword);
 
 
 // Current user

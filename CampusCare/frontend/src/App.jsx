@@ -22,6 +22,13 @@ import AdminRegister from './pages/AdminRegister';
 import AdminForgotPassword from './pages/AdminForgotPassword';
 import AdminDashboard from './pages/AdminDashboard';
 
+// Warden Pages
+import WardenLogin from './pages/WardenLogin';
+import WardenRegister from './pages/WardenRegister';
+import WardenDashboard from './pages/WardenDashboard';
+import WardenForgotPassword from './pages/WardenForgotPassword';
+import WardenResetPassword from './pages/WardenResetPassword';
+
 // Common
 import Navbar from './components/Navbar';
 
@@ -249,6 +256,33 @@ export default function App() {
             }
           />
 
+ {/* =========================================
+              WARDEN AUTH
+          ========================================= */}
+<Route
+  path="/warden/login"
+  element={<WardenLogin />}
+/>
+
+<Route
+  path="/warden/dashboard"
+  element={<WardenDashboard />}
+/>
+
+<Route
+  path="/warden/forgot-password"
+  element={<WardenForgotPassword />}
+/>
+
+<Route
+  path="/warden/reset-password"
+  element={<WardenResetPassword />}
+/>
+
+<Route
+  path="/warden/register"
+  element={<WardenRegister />}
+/>
 
           {/* =========================================
               UNKNOWN URL

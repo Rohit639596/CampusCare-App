@@ -1,29 +1,101 @@
 import { Link } from 'react-router-dom';
+
 import {
   ShieldCheck,
+  GraduationCap,
+  ArrowRight,
   MessageSquareText,
+  Bot,
   SearchCheck,
   CheckCircle2,
-  ArrowRight,
-  GraduationCap,
-  Lock
+  Users,
+  UserRound,
+  LayoutDashboard,
+  Brain,
+  AlertTriangle,
+  Zap,
+  CopyCheck,
+  FileText,
+  Lightbulb,
+  Sparkles,
+  Lock,
 } from 'lucide-react';
 
 export default function Home() {
   return (
     <div className="home-page">
 
-      {/* =========================================
-          HERO SECTION
-      ========================================= */}
+      {/* =========================
+          NAVBAR
+      ========================= */}
+
+      <header className="home-navbar">
+
+        <Link to="/" className="home-brand">
+          <div className="home-brand-icon">
+            <ShieldCheck size={22} />
+          </div>
+
+          <span>CampusCare</span>
+        </Link>
+
+        <nav className="home-nav">
+
+          <a href="#how-it-works">
+            How It Works
+          </a>
+
+          <a href="#ai">
+            CampusCare AI
+          </a>
+
+          <a href="#users">
+            For Students
+          </a>
+
+        </nav>
+
+        <div className="home-nav-actions">
+
+  <Link
+    to="/login"
+    className="home-login"
+  >
+    Student Login
+  </Link>
+
+  <Link
+    to="/warden/login"
+    className="home-login"
+  >
+    Warden Login
+  </Link>
+
+  <Link
+    to="/register"
+    className="home-get-started"
+  >
+    Get Started
+  </Link>
+
+</div>
+
+      </header>
+
+
+      {/* =========================
+          HERO
+      ========================= */}
 
       <section className="home-hero">
 
+        <div className="home-hero-overlay"></div>
+
         <div className="home-hero-content">
 
-          <div className="home-badge">
-            <ShieldCheck size={16} />
-            <span>Campus Complaint Management System</span>
+          <div className="home-hero-badge">
+            <Sparkles size={15} />
+            Smart Campus Grievance System
           </div>
 
           <h1>
@@ -32,101 +104,124 @@ export default function Home() {
             <span>Your Voice.</span>
           </h1>
 
-          <p className="home-description">
-            CampusCare makes it simple for students to
-            report campus problems, track complaints and
-            get them resolved.
+          <p>
+            A smarter way to report, track and resolve
+            student grievances with simple and transparent
+            complaint management.
           </p>
 
-          <div className="home-actions">
+          <Link
+            to="/login"
+            className="home-hero-button"
+          >
+            Raise a Complaint
+            <ArrowRight size={19} />
+          </Link>
 
-            <Link
-              to="/login"
-              className="home-primary-btn"
-            >
-              Raise a Complaint
-              <ArrowRight size={18} />
-            </Link>
-
-            <Link
-              to="/register"
-              className="home-secondary-btn"
-            >
-              Create Student Account
-            </Link>
-
-          </div>
-
-          <div className="home-admin-link">
-
-            <Lock size={15} />
-
-            <span>Are you a campus administrator?</span>
-
-            <Link to="/admin/login">
-              Admin Login
-            </Link>
-
+          <div className="home-hero-note">
+            <Lock size={14} />
+            <span>
+              Your complaint can be tracked from submission
+              to resolution.
+            </span>
           </div>
 
         </div>
 
 
-        {/* Hero Visual */}
+        {/* Hero dashboard visual */}
 
-        <div className="home-hero-card">
+        <div className="home-hero-dashboard">
 
-          <div className="hero-card-top">
+          <div className="hero-dashboard-top">
 
-            <div className="hero-icon">
-              <GraduationCap size={25} />
+            <div className="hero-dashboard-brand">
+              <div>
+                <GraduationCap size={20} />
+              </div>
+
+              <section>
+                <strong>CampusCare</strong>
+                <small>Student Support</small>
+              </section>
             </div>
 
-            <div>
-              <strong>CampusCare</strong>
-              <p>Student Support</p>
-            </div>
-
-          </div>
-
-
-          <div className="hero-complaint">
-
-            <div className="complaint-icon">
-              <MessageSquareText size={20} />
-            </div>
-
-            <div className="complaint-content">
-              <strong>Complaint Submitted</strong>
-              <p>Library maintenance issue</p>
-            </div>
-
-            <span className="status-pill">
-              Submitted
+            <span className="hero-online">
+              ● Active
             </span>
 
           </div>
 
 
-          <div className="hero-progress">
+          <div className="hero-dashboard-body">
 
-            <div className="progress-step active">
-              <CheckCircle2 size={18} />
-              <span>Submitted</span>
+            <div className="hero-mini-sidebar">
+
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+
             </div>
 
-            <div className="progress-line"></div>
 
-            <div className="progress-step active">
-              <SearchCheck size={18} />
-              <span>Under Review</span>
-            </div>
+            <div className="hero-mini-content">
 
-            <div className="progress-line"></div>
+              <div className="hero-mini-search">
+                Search complaints...
+              </div>
 
-            <div className="progress-step">
-              <CheckCircle2 size={18} />
-              <span>Resolved</span>
+              <div className="hero-mini-row">
+
+                <span>
+                  Complaint
+                </span>
+
+                <span>
+                  Category
+                </span>
+
+                <span>
+                  Status
+                </span>
+
+              </div>
+
+
+              <div className="hero-mini-row">
+                <span>Campus Issue</span>
+                <span>Facilities</span>
+                <b>Pending</b>
+              </div>
+
+              <div className="hero-mini-row">
+                <span>Service Request</span>
+                <span>Academics</span>
+                <strong>Review</strong>
+              </div>
+
+              <div className="hero-mini-row">
+                <span>Student Grievance</span>
+                <span>Infrastructure</span>
+                <em>Resolved</em>
+              </div>
+
+
+              <div className="hero-ai-box">
+
+                <Bot size={19} />
+
+                <div>
+                  <strong>CampusCare AI</strong>
+                  <small>
+                    Intelligent complaint analysis
+                  </small>
+                </div>
+
+                <span>AI</span>
+
+              </div>
+
             </div>
 
           </div>
@@ -136,89 +231,164 @@ export default function Home() {
       </section>
 
 
-      {/* =========================================
-          FEATURES
-      ========================================= */}
 
-      <section className="home-features">
+      {/* =========================
+          INTRO
+      ========================= */}
 
-        <div className="section-heading">
+      <section className="home-intro">
 
-          <p className="eyebrow">
-            HOW IT WORKS
+        <p className="home-eyebrow">
+          CAMPUSCARE
+        </p>
+
+        <h2>
+          Making campus grievance management
+          <br />
+          simple and transparent.
+        </h2>
+
+        <p>
+          CampusCare gives students a convenient platform
+          to raise complaints and helps administrators
+          manage and resolve them efficiently.
+        </p>
+
+      </section>
+
+
+
+      {/* =========================
+          HOW IT WORKS
+      ========================= */}
+
+      <section
+        id="how-it-works"
+        className="home-how-section"
+      >
+
+        <div className="home-section-heading">
+
+          <p className="home-eyebrow">
+            HOW CAMPUSCARE WORKS
           </p>
 
           <h2>
-            Report. Track. Resolve.
+            From complaint to resolution.
           </h2>
 
           <p>
-            Everything you need to make your campus
-            better, in one simple place.
+            A simple process designed to keep every
+            grievance clear and trackable.
           </p>
 
         </div>
 
 
-        <div className="feature-grid">
+        <div className="home-process">
 
-          {/* Feature 1 */}
+          <div className="home-process-item">
 
-          <div className="feature-card">
+            <span>01</span>
 
-            <div className="feature-icon">
+            <div className="home-process-icon">
               <MessageSquareText size={23} />
             </div>
 
             <h3>
-              Submit a Complaint
+              Submit
             </h3>
 
             <p>
-              Report problems related to classrooms,
-              hostels, facilities, cleanliness and
-              other campus services.
+              Student submits a campus complaint.
             </p>
 
           </div>
 
 
-          {/* Feature 2 */}
+          <ArrowRight className="process-arrow" size={20} />
 
-          <div className="feature-card">
 
-            <div className="feature-icon">
+          <div className="home-process-item">
+
+            <span>02</span>
+
+            <div className="home-process-icon">
+              <Bot size={23} />
+            </div>
+
+            <h3>
+              AI Analysis
+            </h3>
+
+            <p>
+              AI analyzes the complaint and its context.
+            </p>
+
+          </div>
+
+
+          <ArrowRight className="process-arrow" size={20} />
+
+
+          <div className="home-process-item">
+
+            <span>03</span>
+
+            <div className="home-process-icon">
               <SearchCheck size={23} />
             </div>
 
             <h3>
-              Track Your Complaint
+              Review
             </h3>
 
             <p>
-              Check the current status of your complaint
-              and stay updated as administrators review it.
+              Administrator reviews the complaint.
             </p>
 
           </div>
 
 
-          {/* Feature 3 */}
+          <ArrowRight className="process-arrow" size={20} />
 
-          <div className="feature-card">
 
-            <div className="feature-icon">
+          <div className="home-process-item">
+
+            <span>04</span>
+
+            <div className="home-process-icon">
+              <LayoutDashboard size={23} />
+            </div>
+
+            <h3>
+              Track
+            </h3>
+
+            <p>
+              Student tracks complaint progress.
+            </p>
+
+          </div>
+
+
+          <ArrowRight className="process-arrow" size={20} />
+
+
+          <div className="home-process-item">
+
+            <span>05</span>
+
+            <div className="home-process-icon">
               <CheckCircle2 size={23} />
             </div>
 
             <h3>
-              Get Resolution
+              Resolution
             </h3>
 
             <p>
-              Administrators can review complaints,
-              update their status and provide resolution
-              notes.
+              Administrator completes the resolution.
             </p>
 
           </div>
@@ -228,15 +398,186 @@ export default function Home() {
       </section>
 
 
-      {/* =========================================
-          STUDENT CTA
-      ========================================= */}
 
-      <section className="home-student-cta">
+      {/* =========================
+          CAMPUSCARE AI
+      ========================= */}
 
-        <div>
+      <section
+        id="ai"
+        className="home-ai"
+      >
 
-          <p className="eyebrow">
+        <div className="home-ai-heading">
+
+          <div className="home-ai-title">
+
+            <div className="home-ai-logo">
+              <Bot size={23} />
+            </div>
+
+            <span>
+              CampusCare AI
+            </span>
+
+          </div>
+
+          <p className="home-eyebrow">
+            INTELLIGENT COMPLAINT ANALYSIS
+          </p>
+
+          <h2>
+            Smarter Complaint Management
+            <br />
+            with <span>Artificial Intelligence</span>
+          </h2>
+
+          <p>
+            CampusCare uses AI to analyze student complaints,
+            understand their context and provide useful
+            insights to administrators for faster and more
+            effective grievance management.
+          </p>
+
+        </div>
+
+
+        <div className="home-ai-grid">
+
+          <div className="home-ai-item">
+
+            <Brain size={21} />
+
+            <div>
+              <h3>AI Category Detection</h3>
+              <p>
+                Identifies the relevant category of a complaint.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className="home-ai-item">
+
+            <AlertTriangle size={21} />
+
+            <div>
+              <h3>AI Priority Detection</h3>
+              <p>
+                Suggests Low, Medium, High or Critical priority.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className="home-ai-item">
+
+            <MessageSquareText size={21} />
+
+            <div>
+              <h3>Sentiment Analysis</h3>
+              <p>
+                Identifies the emotional tone of a complaint.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className="home-ai-item">
+
+            <Zap size={21} />
+
+            <div>
+              <h3>Urgency Detection</h3>
+              <p>
+                Identifies complaints that may need immediate attention.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className="home-ai-item">
+
+            <CopyCheck size={21} />
+
+            <div>
+              <h3>Duplicate Detection</h3>
+              <p>
+                Finds similar complaints using semantic similarity.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className="home-ai-item">
+
+            <FileText size={21} />
+
+            <div>
+              <h3>AI Summary</h3>
+              <p>
+                Creates a concise summary of the complaint.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className="home-ai-item">
+
+            <Lightbulb size={21} />
+
+            <div>
+              <h3>AI Recommendation</h3>
+              <p>
+                Suggests possible next steps for handling complaints.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className="home-ai-item">
+
+            <ShieldCheck size={21} />
+
+            <div>
+              <h3>Decision Support</h3>
+              <p>
+                AI assists administrators while the final decision
+                remains with them.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      {/* =========================
+          STUDENTS + ADMIN
+      ========================= */}
+
+      <section
+        id="users"
+        className="home-users"
+      >
+
+        <div className="home-user-box student-box">
+
+          <div className="home-user-icon">
+            <UserRound size={24} />
+          </div>
+
+          <p className="home-eyebrow">
             FOR STUDENTS
           </p>
 
@@ -245,15 +586,79 @@ export default function Home() {
           </h2>
 
           <p>
-            Don't let a problem go unheard.
-            Submit your complaint through CampusCare.
+            Don't let a problem go unheard. Submit your
+            complaint, track its progress and stay informed
+            throughout the resolution process.
           </p>
+
+          <Link
+            to="/login"
+            className="home-text-button"
+          >
+            Get Started
+            <ArrowRight size={17} />
+          </Link>
 
         </div>
 
+
+        <div className="home-user-box admin-box">
+
+          <div className="home-user-icon">
+            <Users size={24} />
+          </div>
+
+          <p className="home-eyebrow">
+            FOR ADMINISTRATORS
+          </p>
+
+          <h2>
+            Manage campus grievances.
+          </h2>
+
+          <p>
+            Review student complaints, use AI-powered
+            insights and manage grievance resolution
+            from the administrator dashboard.
+          </p>
+
+          <Link
+            to="/admin/login"
+            className="home-text-button"
+          >
+            Admin Login
+            <ArrowRight size={17} />
+          </Link>
+
+        </div>
+
+      </section>
+
+
+
+      {/* =========================
+          FINAL CTA
+      ========================= */}
+
+      <section className="home-final">
+
+        <div className="home-final-icon">
+          <GraduationCap size={25} />
+        </div>
+
+        <h2>
+          Make your campus better,
+          <br />
+          one complaint at a time.
+        </h2>
+
+        <p>
+          Start using CampusCare today.
+        </p>
+
         <Link
-          to="/login"
-          className="home-primary-btn"
+          to="/register"
+          className="home-final-button"
         >
           Get Started
           <ArrowRight size={18} />
@@ -262,48 +667,17 @@ export default function Home() {
       </section>
 
 
-      {/* =========================================
-          ADMIN CTA
-      ========================================= */}
 
-      <section className="home-admin-cta">
-
-        <div className="admin-cta-icon">
-          <ShieldCheck size={25} />
-        </div>
-
-        <div className="admin-cta-content">
-
-          <h3>
-            Campus Administrator?
-          </h3>
-
-          <p>
-            Review student complaints and manage
-            campus grievance resolution from the
-            administrator dashboard.
-          </p>
-
-        </div>
-
-        <Link to="/admin/login">
-          Admin Login
-          <ArrowRight size={17} />
-        </Link>
-
-      </section>
-
-
-      {/* =========================================
+      {/* =========================
           FOOTER
-      ========================================= */}
+      ========================= */}
 
       <footer className="home-footer">
 
-        <div className="footer-brand">
+        <div className="home-footer-brand">
 
-          <div className="footer-logo">
-            <ShieldCheck size={18} />
+          <div className="home-brand-icon">
+            <ShieldCheck size={19} />
           </div>
 
           <strong>
@@ -313,7 +687,8 @@ export default function Home() {
         </div>
 
         <p>
-          Making campus grievance management simple.
+          Making campus grievance management
+          simple and intelligent.
         </p>
 
         <span>

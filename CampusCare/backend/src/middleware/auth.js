@@ -22,3 +22,5 @@ export function requireRole(...roles) {
     next();
   };
 }
+
+export const requireWarden = requireRole('WARDEN');
